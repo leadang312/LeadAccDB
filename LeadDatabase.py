@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit_extras.let_it_rain import rain
 import pandas as pd
 import numpy as np
 
@@ -120,13 +119,7 @@ def lead_list_upload():
 
                 if st.button('Save to Lead Database', key="save_button"):
                     lead_db.to_csv("./data/lead_db.csv")
-
-                    rain(
-                        emoji="🎈",
-                        font_size=54,
-                        falling_speed=2,
-                        animation_length=3,
-                    )
+                    st.write("Leads Saved!")
 
 
 def main():
