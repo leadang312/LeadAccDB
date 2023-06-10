@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 # Page headers
-st.title("📊 Analysis")
+st.title("📊 Data")
 st.caption("Here you can view the data")
 
 # Database
