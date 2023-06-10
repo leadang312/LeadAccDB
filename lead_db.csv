@@ -1,4 +1,4 @@
-lead_id,company_id,campaign_id,firstname,lastname,title,company,country,region,email,df_linkedin_url,linkedin_url,rating,leadsource,website,note,existing_acc
+lead_id,company_id,campaign_id,firstname,lastname,title,company,country,region,email,sf_linkedin_url,linkedin_url,rating,leadsource,website,note,existing_acc
 0,,data engineer 1,Mario,Marangione,,Università Cattolica del Sacro Cuore,,,,,https://www.linkedin.com/in/mario-marangione-539b893,,,,,
 1,,data engineer 1,Francesco,Cavalli,,Ajo Motorsport Oy,,,,,https://www.linkedin.com/in/francesco-cavalli-2029a592,,,,,
 2,,data engineer 1,Daniele,Barbaro,,Quercetti,,,,,https://www.linkedin.com/in/barbarodaniele,,,,,

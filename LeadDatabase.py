@@ -19,7 +19,7 @@ st.caption("Here you can add new leads to the lead database")
 
 # Macros
 lead_db = pd.read_csv("./lead_db.csv", index_col='lead_id')
-required_cols = ["lead_id", "company_id", "campaign_id", "firstname", "lastname", "title", "company", "country", "region", "email", "df_linkedin_url", "linkedin_url", "rating", "leadsource", "website", "note", "existing_acc"]
+required_cols = ["lead_id", "company_id", "campaign_id", "firstname", "lastname", "title", "company", "country", "region", "email", "sf_linkedin_url", "linkedin_url", "rating", "leadsource", "website", "note", "existing_acc"]
 
 if 'mapped' not in st.session_state:
     st.session_state.mapped = False
