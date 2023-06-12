@@ -22,7 +22,12 @@ if 'mapped' not in st.session_state:
     st.session_state.mapped = False
 
 if 'added' not in st.session_state:
-            st.session_state.added = False
+    st.session_state.added = False
+
+if 'name_idxer' not in st.session_state:
+    st.session_state.name_idxer = True
+
+        
 
 ### FIRST STEP: Lead List Upload
 st.write("")
@@ -45,18 +50,23 @@ if lead_list is not None:
 
     for idx, col in enumerate(required_cols):
         with cols[idx%5]:
-            input = st.selectbox(col, ["No match"]+lead_list_cols)
+            options = ["No match"] + lead_list_cols
+            input = st.selectbox(col, options)
 
-        if input:
-            if input != "No match":
-                lead_df = lead_df.rename(columns={input:col})
+        if input != "No match":
+            lead_df = lead_df.rename(columns={input:col})
     
     # Introducing state and setting it with map button
     if st.button('Map', key="map_button"):
 
         lead_list_cols = list(lead_df.columns)
 
-        if ("firstname" in lead_list_cols and "lastname" in lead_list_cols) or "linkedin_url" in lead_list_cols:
+        if ("firstname" in lead_list_cols and "lastname" in lead_list_cols):
+            st.session_state.name_idxer = True
+            st.session_state.mapped = True
+            
+        elif "linkedin_url" in lead_list_cols:
+            st.session_state.name_idxer = False
             st.session_state.mapped = True
             
         else: 
@@ -103,14 +113,27 @@ if lead_list is not None:
         # Iterating over new leads
         for idx, row in lead_df.iterrows():
 
-            if "firstname" in lead_list_cols and "lastname" in lead_list_cols:
+            mask = None
+            match = None
+
+            if idx == 3:
+                break
+            
+            lead_list_cols = list(lead_df.columns)
+
+
+            if st.session_state.name_idxer:
+
+                st.write("Fullname")
                 firstname = row["firstname"]
                 lastname = row["lastname"]
             
-                mask = (lead_db['firstname'] == firstname) and (lead_db['lastname'] == lastname)
-                match = lead_db[(lead_db['firstname'] == firstname) and (lead_db['lastname'] == lastname)]
+                mask = (lead_db['firstname'] == firstname) & (lead_db['lastname'] == lastname)
+                match = lead_db[(lead_db['firstname'] == firstname) & (lead_db['lastname'] == lastname)]
 
             else:
+                
+                st.write("LinkedIn")
                 linkedin_url = row["linkedin_url"]
 
                 mask = lead_db['linkedin_url'] == linkedin_url
