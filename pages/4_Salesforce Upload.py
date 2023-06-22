@@ -15,10 +15,18 @@ st.set_page_config(
 st.title("📊 Salesforce Upload")
 st.caption("Here you can add new leads to salesforce")
 
+# States
+if 'connect' not in st.session_state:
+    st.session_state.connect = False
+
+if 'mapped' not in st.session_state:
+    st.session_state.mapped = False
+
+
 # Columns
 required_cols = ["LastName", "FirstName", "Title", "Email", "Company", "OwnerId", "LinkedIn_profile__c", "Campaign_ID_Array__c", "Existing_Account__c", "Phone"]
 
-### FIRST STEP: Lead List Upload
+### FIRST STEP: Sales force Login
 st.write("")
 st.markdown(f"**1️⃣ FIRST STEP:** Log into Salesforce.")
 
@@ -32,6 +40,7 @@ with col4: my_security_token = st.text_input("Security token", value="", key="Se
 connect = st.button("Connect to Salesforce")
 
 if desired_lead_owner_id != "" and my_username != "" and my_password != "" and my_security_token != "" and connect:
+
     sf = Salesforce(username=my_username, password=my_password, security_token=my_security_token)
     st.write("Connection successfull!")
 
@@ -42,10 +51,13 @@ if 'mapped' not in st.session_state:
     st.session_state.mapped = False
 
 ### SECOND STEP: Lead List Upload
-st.write("")
-st.markdown(f"**2️⃣ SECOND STEP:** Upload the lead list.")
+lead_list = None
 
-lead_list = st.file_uploader("Upload the lead list.", key = "lead_list_uploader", label_visibility="collapsed")
+if st.session_state.connect:
+    st.write("")
+    st.markdown(f"**2️⃣ SECOND STEP:** Upload the lead list.")
+
+    lead_list = st.file_uploader("Upload the lead list.", key = "lead_list_uploader", label_visibility="collapsed")
 
 
 if lead_list is not None:
@@ -56,7 +68,7 @@ if lead_list is not None:
 
     #### SECOND STEP: Mapping columns
     st.write("")
-    st.markdown(f"**2️⃣ SECOND STEP:** Type in the column names of your lead list. By clicking map you rename them. You need to map firstname and lastname!")      
+    st.markdown(f"**2️⃣ SECOND STEP:** Type in the column names of your lead list. By clicking map you rename them. You need to map FirstName and LastName!")      
         
     cols = st.columns(5)   
 
@@ -73,11 +85,11 @@ if lead_list is not None:
 
         lead_list_cols = list(lead_df.columns)
 
-        if ("firstname" in lead_list_cols and "lastname" in lead_list_cols) or "linkedin_url" in lead_list_cols:
+        if ("FirstName" in lead_list_cols and "LastName" in lead_list_cols) or "LinkedIn_profile__c" in lead_list_cols:
             st.session_state.mapped = True
             
         else: 
-            st.error("You need to set the firstname, lastname column or the linkedin_url column!", icon="🚨")
+            st.error("You need to set the FirstName, LastName column or the LinkedIn_profile__c column!", icon="🚨")
             
     
     ### THIRD STEP: Checking mapping
@@ -95,8 +107,8 @@ if lead_list is not None:
         lead_df = lead_df[required_cols].dropna(how='all', axis=1)
         lead_df = lead_df.reindex(columns=required_cols)
 
-        lead_df['company_id'] = lead_df['company_id'].fillna("")
-        lead_df['company_id'] = lead_df['company_id'].str.replace('www.', '').str.split('/').str[0]
+        #lead_df['company_id'] = lead_df['company_id'].fillna("")
+        #lead_df['company_id'] = lead_df['company_id'].str.replace('www.', '').str.split('/').str[0]
 
         lead_df = lead_df.replace([""], np.nan)
         lead_df = st.experimental_data_editor(lead_df, key = "mapped_df")
