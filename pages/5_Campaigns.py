@@ -53,3 +53,17 @@ st.experimental_data_editor(filtered_df2)
 f"**Title:** {title_criteria}   **Linkedin** not null"
 csv2 = convert_df(filtered_df2)  
 st.download_button(label="Download Leads",  data=csv2, file_name='LeadList.csv', mime='text/csv')
+
+# Third search
+skill_criteria = 'dbt'
+
+filtered_df3 = df[
+    (df['note'].str.contains(skill_criteria, case=False, na=False)) &
+    ((df['sf_linkedin_url'].notnull()) | (df['linkedin_url'].notnull()))
+]
+
+st.experimental_data_editor(filtered_df3)
+
+f"**Skills:** {skill_criteria}   **Linkedin** not null"
+csv3 = convert_df(filtered_df3)  
+st.download_button(label="Download Leads",  data=csv3, file_name='LeadList.csv', mime='text/csv')
