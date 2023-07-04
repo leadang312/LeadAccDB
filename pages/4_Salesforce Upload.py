@@ -63,7 +63,7 @@ if st.session_state.connect:
 if lead_list is not None:
 
     lead_df = pd.read_csv(lead_list)
-    lead_df = st.experimental_data_editor(lead_df, key = "init_df")
+    lead_df = st.data_editor(lead_df, key = "init_df")
     lead_list_cols = list(lead_df.columns)
 
     #### SECOND STEP: Mapping columns
@@ -111,4 +111,4 @@ if lead_list is not None:
         #lead_df['company_id'] = lead_df['company_id'].str.replace('www.', '').str.split('/').str[0]
 
         lead_df = lead_df.replace([""], np.nan)
-        lead_df = st.experimental_data_editor(lead_df, key = "mapped_df")
+        lead_df = st.data_editor(lead_df, key = "mapped_df")

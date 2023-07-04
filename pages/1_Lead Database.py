@@ -92,7 +92,7 @@ if lead_list is not None:
         lead_df['company_id'] = lead_df['company_id'].str.replace('www.', '').str.split('/').str[0]
 
         lead_df = lead_df.replace([""], np.nan)
-        lead_df = st.experimental_data_editor(lead_df, key = "mapped_df")
+        lead_df = st.data_editor(lead_df, key = "mapped_df")
 
         ### FOURTH STEP: Adding leads to the database
         st.write("")
@@ -149,7 +149,7 @@ if lead_list is not None:
 
             my_bar.progress(idx/numb_leads, text=progress_text)
 
-        st.experimental_data_editor(lead_db)
+        st.data_editor(lead_db)
         my_bar.empty()
 
         ### FIFTH STEP: Save the leads

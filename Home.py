@@ -21,7 +21,7 @@ def convert_df(df):
 
 # Leads
 lead_db = pd.read_csv("./lead_db.csv", index_col='lead_id')
-st.experimental_data_editor(lead_db)
+st.data_editor(lead_db)
 
 csv = convert_df(lead_db)  
 st.download_button(label="Download Leads",  data=csv, file_name='LeadList.csv', mime='text/csv')
@@ -29,7 +29,7 @@ st.download_button(label="Download Leads",  data=csv, file_name='LeadList.csv', 
 # Accounts
 st.write("")
 acc_db = pd.read_csv("./acc_db.csv", index_col='acc_id')
-st.experimental_data_editor(acc_db)
+st.data_editor(acc_db)
 
 csv = convert_df(acc_db)  
 st.download_button(label="Download Accounts",  data=csv, file_name='AccountList.csv', mime='text/csv')

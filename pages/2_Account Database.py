@@ -35,7 +35,7 @@ acc_list = st.file_uploader("Upload the acc list.", key = "acc_list_uploader", l
 if acc_list is not None:
 
     acc_df = pd.read_csv(acc_list)
-    acc_df = st.experimental_data_editor(acc_df, key = "init_df")
+    acc_df = st.data_editor(acc_df, key = "init_df")
     acc_list_cols = list(acc_df.columns)
 
     #### SECOND STEP: Mapping columns
@@ -80,7 +80,7 @@ if acc_list is not None:
         acc_df['company_id'] = acc_df['company_id'].str.replace('www.', '').str.split('/').str[0]
 
         acc_df = acc_df.replace([""], np.nan)
-        acc_df = st.experimental_data_editor(acc_df, key = "mapped_df")
+        acc_df = st.data_editor(acc_df, key = "mapped_df")
 
         ### FOURTH STEP: Adding accs to the database
         st.write("")
@@ -116,7 +116,7 @@ if acc_list is not None:
 
             my_bar.progress(idx/numb_accs, text=progress_text)
 
-        st.experimental_data_editor(acc_db)
+        st.data_editor(acc_db)
         my_bar.empty()
 
         ### FIFTH STEP: Save the accs
